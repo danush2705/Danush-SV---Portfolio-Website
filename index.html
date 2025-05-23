@@ -35,14 +35,15 @@
     .hero-section {
         min-height: 100vh;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
-        justify-content: center;
-        text-align: center;
+        justify-content: space-between;
+        text-align: left;
         padding: 6rem 2rem 2rem 2rem;
         position: relative;
         overflow: hidden;
         background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.85) 100%);
+        gap: 4rem;
     }
     .hero-section::before {
         content: '';
@@ -55,11 +56,14 @@
         opacity: 0.1;
         z-index: -1;
     }
+    .hero-content {
+        flex: 1;
+        max-width: 600px;
+    }
     .hero-image-container {
-        width: 100%;
-        height: 60vh;
+        flex: 1;
+        height: 80vh;
         position: relative;
-        margin-bottom: 2rem;
         overflow: hidden;
         border-radius: 1rem;
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
@@ -150,6 +154,9 @@
         height: 3px;
         background: var(--primary);
         border-radius: 2px;
+    }
+    h2.hero-role::after {
+        display: none;
     }
     .project-grid {
         display: grid;
@@ -252,11 +259,20 @@
         margin-bottom: 1rem;
     }
     @media (max-width: 768px) {
+        .hero-section {
+            flex-direction: column;
+            text-align: center;
+            gap: 2rem;
+        }
+        .hero-content {
+            max-width: 100%;
+        }
         .hero-name {
             font-size: 2.5rem;
         }
         .hero-image-container {
             height: 40vh;
+            width: 100%;
         }
     }
     .nav-bar {
@@ -269,7 +285,20 @@
         backdrop-filter: blur(10px);
         z-index: 1000;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .nav-title {
+        color: var(--text);
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-decoration: none;
+        background: linear-gradient(45deg, var(--text), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .nav-buttons {
+        display: flex;
         gap: 1rem;
     }
     .nav-button {
@@ -355,36 +384,177 @@
         color: white;
         transform: translateY(-2px);
     }
+    .coursework-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }
+    .coursework-item {
+        background: rgba(37, 99, 235, 0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        transition: all 0.3s ease;
+    }
+    .coursework-item:hover {
+        background: var(--primary);
+        color: white;
+        transform: translateY(-2px);
+    }
+    .coursework-title {
+        color: var(--accent);
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.2rem;
+        letter-spacing: 0.5px;
+    }
+    .education-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    .education-college {
+        color: var(--accent);
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+    .education-year {
+        color: var(--primary);
+        font-size: 1rem;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+    .certifications-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    .certification-card {
+        background: var(--surface);
+        border-radius: 1rem;
+        padding: 1.5rem 2rem;
+        border: 1px solid rgba(59, 130, 246, 0.1);
+        color: var(--text-secondary);
+        font-size: 1.05rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transition: all 0.3s ease;
+    }
+    .certification-card:hover {
+        border-color: var(--primary);
+        box-shadow: 0 10px 30px rgba(37, 99, 235, 0.1);
+        color: var(--accent);
+    }
+    .certification-platform {
+        color: var(--accent);
+        font-weight: 700;
+        margin-right: 0.5rem;
+        font-size: 1.1rem;
+    }
+    .certification-logo {
+        height: 28px;
+        width: auto;
+        margin-right: 0.7rem;
+        vertical-align: middle;
+        border-radius: 4px;
+        background: white;
+        padding: 2px;
+    }
+    .certification-logo.nptel {
+        height: 38px;
+        padding: 2px 4px;
+    }
+    .hero-role {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        align-items: center;
+        background: none !important;
+        -webkit-background-clip: unset !important;
+        -webkit-text-fill-color: unset !important;
+        text-shadow: none !important;
+        margin-bottom: 1.2rem;
+    }
+    .role-badge {
+        display: inline-block;
+        background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%);
+        color: #fff;
+        font-size: 1.3rem;
+        font-weight: 600;
+        padding: 0.5rem 1.5rem;
+        border-radius: 2rem;
+        box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+        letter-spacing: 0.5px;
+        margin: 0;
+    }
+    .footer {
+        width: 100%;
+        text-align: center;
+        padding: 2rem 0 1.5rem 0;
+        color: var(--text-secondary);
+        background: none;
+        font-size: 1.1rem;
+        letter-spacing: 0.2px;
+        margin-top: 3rem;
+    }
 </style>
 </head>
 <body>
 <nav class="nav-bar">
-    <a href="#" class="nav-button">Home</a>
-    <a href="contact.html" class="nav-button">Contact</a>
-    <a href="Danush_SV_Resume.pdf" target="_blank" class="nav-button">Resume</a>
+    <a href="#" class="nav-title">Danush SV</a>
+    <div class="nav-buttons">
+        <a href="#" class="nav-button">Home</a>
+        <a href="contact.html" class="nav-button">Contact</a>
+        <a href="Danush_SV_Resume.pdf" target="_blank" class="nav-button">Resume</a>
+    </div>
 </nav>
 
 <div class="container">
     <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-name">Hey, I'm Danush SV</h1>
+            <h2 class="hero-role">
+                <span class="role-badge">Data Scientist</span>
+                <span class="role-badge">AI & ML Engineer</span>
+            </h2>
+            <p class="hero-description">
+                Passionate about tech with a strong foundation in development, data analytics, and machine learning. Open to learning and taking on diverse roles to build impactful, secure, and scalable solutions.
+            </p>
+        </div>
         <div class="hero-image-container">
             <div class="hero-background"></div>
             <div class="hero-profile">
                 <img src="Profile Pic.jpg" alt="Danush SV">
             </div>
         </div>
-        <h1 class="hero-name">Hey, I'm Danush SV</h1>
-        <p class="hero-description">
-            Passionate about tech with a strong foundation in development, data analytics, and cybersecurity. Open to learning and taking on diverse roles to build impactful, secure, and scalable solutions.
-        </p>
     </div>
 
     <div class="main-content">
         <section>
             <h2>Education</h2>
             <div class="responsibility-card">
-                <div class="responsibility-title">Shiv Nadar University, Chennai</div>
+                <div class="education-header">
+                    <div class="education-college">Shiv Nadar University, Chennai</div>
+                    <div class="education-year">Sept 2022 – Sept 2026</div>
+                </div>
                 <div class="responsibility-period">Bachelor of Technology in Computer Science</div>
-                <p>Sept 2022 – Sept 2026</p>
+                <div class="coursework-title">Course Work :</div>
+                <div class="coursework-list">
+                    <span class="coursework-item">Data Structures and Algorithms</span>
+                    <span class="coursework-item">ML</span>
+                    <span class="coursework-item">AI</span>
+                    <span class="coursework-item">Software Development</span>
+                    <span class="coursework-item">DBMS</span>
+                    <span class="coursework-item">Cloud Computing</span>
+                </div>
             </div>
         </section>
 
@@ -553,23 +723,46 @@
         </section>
 
         <section>
+            <h2>Certifications</h2>
+            <div class="certifications-grid">
+                <div class="certification-card">
+                    <img class="certification-logo" src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Udemy_logo.svg" alt="Udemy Logo">
+                    The Complete Python Pro Bootcamp Professional Certification
+                </div>
+                <div class="certification-card">
+                    <img class="certification-logo" src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Udemy_logo.svg" alt="Udemy Logo">
+                    Machine Learning Professional Certification
+                </div>
+                <div class="certification-card">
+                    <img class="certification-logo nptel" src="nptel-logo.png" alt="NPTEL Logo">
+                    Responsible & Safe AI Systems Professional Certification
+                </div>
+                <div class="certification-card">
+                    <img class="certification-logo nptel" src="nptel-logo.png" alt="NPTEL Logo">
+                    Edge Computing Professional Certification
+                </div>
+            </div>
+        </section>
+
+        <section>
             <h2>Positions of Responsibility</h2>
             <div class="responsibility-card">
-                <div class="responsibility-title">Student Pupil Leader (Headboy)</div>
+                <div class="responsibility-title">Student Pupil Leader</div>
                 <div class="responsibility-period">Vani Vidyalaya School Chennai | June 2021-June 2022</div>
-                <p>Oversaw events, assisted classmates with academics and extracurricular activities, collaborated with staff to
-                enhance student life, and advocated for the student body to foster a welcoming environment.</p>
+                <p>Oversaw events, assisted classmates with academics and extracurricular activities, collaborated with staff to enhance student life, and advocated for the student body to foster a welcoming environment.</p>
             </div>
-
             <div class="responsibility-card">
                 <div class="responsibility-title">Club Head of Theatre Club</div>
                 <div class="responsibility-period">Shiv Nadar University Chennai</div>
-                <p>Organized events such as Freshers' Day and the New Year celebration, overseeing operations and coordinating
-                with staff and students to ensure smooth execution.</p>
+                <p>Organized events such as Freshers' Day and the New Year celebration, overseeing operations and coordinating with staff and students to ensure smooth execution.</p>
             </div>
         </section>
     </div>
 </div>
+
+<footer class="footer">
+    © 2025 Danush SV. All rights reserved.
+</footer>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

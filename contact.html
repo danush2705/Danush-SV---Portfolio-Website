@@ -41,8 +41,19 @@
         backdrop-filter: blur(10px);
         z-index: 1000;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: center;
         gap: 1rem;
+    }
+
+    .nav-title {
+        color: var(--text);
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-decoration: none;
+        background: linear-gradient(45deg, var(--text), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
     .nav-button {
@@ -263,14 +274,15 @@
 </head>
 <body>
     <nav class="nav-bar">
-        <a href="index.html" class="nav-button">Home</a>
-        <a href="#" class="nav-button">Contact</a>
-        <a href="Danush_SV_Resume.pdf" target="_blank" class="nav-button">Resume</a>
+        <a href="index.html" class="nav-title">Danush SV</a>
+        <div>
+            <a href="index.html" class="nav-button">Home</a>
+            <a href="#" class="nav-button">Contact</a>
+            <a href="Danush_SV_Resume.pdf" target="_blank" class="nav-button">Resume</a>
+        </div>
     </nav>
 
     <div class="container">
-        <h1 class="section-title">Get in Touch</h1>
-        
         <div class="contact-grid">
             <div class="contact-info">
                 <h2>Contact Information</h2>
