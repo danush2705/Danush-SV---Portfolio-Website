@@ -6,6 +6,7 @@
 <title>Contact - Danush SV</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
     :root {
         --primary: #2563eb;
@@ -21,7 +22,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Inter', sans-serif;
+        font-family: 'Montserrat', 'Poppins', 'Inter', sans-serif;
     }
 
     body {
@@ -54,6 +55,31 @@
         background: linear-gradient(45deg, var(--text), var(--accent));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .nav-center {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex: 1;
+    }
+
+    .nav-socials {
+        display: flex;
+        gap: 1.2rem;
+        align-items: center;
+    }
+
+    .nav-socials a {
+        color: var(--accent);
+        font-size: 1.3rem;
+        transition: color 0.2s, transform 0.2s;
+    }
+
+    .nav-socials a:hover {
+        color: var(--primary);
+        transform: scale(1.2);
     }
 
     .nav-button {
@@ -275,10 +301,15 @@
 <body>
     <nav class="nav-bar">
         <a href="index.html" class="nav-title">Danush SV</a>
-        <div>
+        <div class="nav-center">
             <a href="index.html" class="nav-button">Home</a>
             <a href="#" class="nav-button">Contact</a>
             <a href="Danush_SV_Resume.pdf" target="_blank" class="nav-button">Resume</a>
+        </div>
+        <div class="nav-socials">
+            <a href="https://github.com/danush2705" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/danushsv" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="mailto:danushsv@gmail.com" title="Mail"><i class="fas fa-envelope"></i></a>
         </div>
     </nav>
 
@@ -350,6 +381,10 @@
             </div>
         </div>
     </div>
+
+    <footer class="footer" style="width:100%;text-align:center;padding:2rem 0 1.5rem 0;color:var(--text-secondary);background:none;font-size:1.1rem;letter-spacing:0.2px;margin-top:3rem;">
+        © 2025 Danush SV. All rights reserved.
+    </footer>
 
     <script>
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
