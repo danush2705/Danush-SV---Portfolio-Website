@@ -30,6 +30,52 @@
         color: var(--text);
         line-height: 1.6;
         min-height: 100vh;
+        cursor: none; /* Hide default cursor for custom animation */
+    }
+
+    /* Custom Cursor Styles (same as index.html) */
+    .custom-cursor {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: difference;
+        transition: transform 0.1s ease;
+        transform: translate(-50%, -50%);
+    }
+
+    .custom-cursor-trail {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: rgba(56, 189, 248, 0.6);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transition: all 0.15s ease;
+        transform: translate(-50%, -50%);
+    }
+
+    .custom-cursor.hover {
+        transform: translate(-50%, -50%) scale(1.5);
+        background: linear-gradient(135deg, var(--accent), var(--primary));
+    }
+
+    .custom-cursor.click {
+        transform: translate(-50%, -50%) scale(0.8);
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+    }
+
+    a:hover, button:hover, .nav-button:hover, .contact-link:hover, .submit-button:hover {
+        cursor: none;
+    }
+
+    @media (max-width: 768px) {
+        body { cursor: auto; }
+        .custom-cursor, .custom-cursor-trail { display: none; }
     }
 
     .nav-bar {
@@ -299,12 +345,15 @@
 </style>
 </head>
 <body>
+    <!-- Custom Cursor Elements -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-trail"></div>
     <nav class="nav-bar">
         <a href="index.html" class="nav-title">Danush SV</a>
         <div class="nav-center">
             <a href="index.html" class="nav-button">Home</a>
             <a href="#" class="nav-button">Contact</a>
-            <a href="Danush_SV_Resume.pdf" target="_blank" class="nav-button">Resume</a>
+            <a href="DanushSV_Resume.pdf" target="_blank" class="nav-button">Resume</a>
         </div>
         <div class="nav-socials">
             <a href="https://github.com/danush2705" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
@@ -387,6 +436,50 @@
     </footer>
 
     <script>
+    // Custom Cursor Animation (same as index.html)
+    (function() {
+        const cursor = document.querySelector('.custom-cursor');
+        const cursorTrail = document.querySelector('.custom-cursor-trail');
+        if (cursor && cursorTrail) {
+            let mouseX = 0, mouseY = 0;
+            let cursorX = 0, cursorY = 0;
+            let trailX = 0, trailY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            function animateCursor() {
+                cursorX += (mouseX - cursorX) * 0.15;
+                cursorY += (mouseY - cursorY) * 0.15;
+                trailX += (mouseX - trailX) * 0.08;
+                trailY += (mouseY - trailY) * 0.08;
+                cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+                cursorTrail.style.transform = `translate(${trailX}px, ${trailY}px)`;
+                requestAnimationFrame(animateCursor);
+            }
+            animateCursor();
+
+            const interactive = document.querySelectorAll('a, button, .nav-button, .contact-link, .submit-button');
+            interactive.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+
+            document.addEventListener('mousedown', () => cursor.classList.add('click'));
+            document.addEventListener('mouseup', () => cursor.classList.remove('click'));
+
+            document.addEventListener('mouseleave', () => {
+                cursor.style.opacity = '0';
+                cursorTrail.style.opacity = '0';
+            });
+            document.addEventListener('mouseenter', () => {
+                cursor.style.opacity = '1';
+                cursorTrail.style.opacity = '1';
+            });
+        }
+    })();
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         

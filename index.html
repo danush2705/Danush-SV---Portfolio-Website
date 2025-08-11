@@ -34,6 +34,59 @@
         padding: 0;
         min-height: 100vh;
         overflow-x: hidden;
+        cursor: none; /* Hide default cursor */
+    }
+    
+    /* Custom Cursor Styles */
+    .custom-cursor {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: difference;
+        transition: transform 0.1s ease;
+        transform: translate(-50%, -50%);
+    }
+    
+    .custom-cursor-trail {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: rgba(56, 189, 248, 0.6);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transition: all 0.15s ease;
+        transform: translate(-50%, -50%);
+    }
+    
+    .custom-cursor.hover {
+        transform: translate(-50%, -50%) scale(1.5);
+        background: linear-gradient(135deg, var(--accent), var(--primary));
+    }
+    
+    .custom-cursor.click {
+        transform: translate(-50%, -50%) scale(0.8);
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+    }
+    
+    /* Show cursor on interactive elements */
+    a:hover, button:hover, .role-badge:hover, .project-card:hover, 
+    .skill-card:hover, .certification-card:hover, .award-card:hover {
+        cursor: none;
+    }
+    
+    /* Ensure cursor is visible on mobile */
+    @media (max-width: 768px) {
+        body {
+            cursor: auto;
+        }
+        .custom-cursor, .custom-cursor-trail {
+            display: none;
+        }
     }
     .container {
         max-width: 1200px;
@@ -85,6 +138,7 @@
         display: flex;
         gap: 1.5rem;
         margin-bottom: 0.5rem;
+        width: 100%;
     }
     .role-badge {
         background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%);
@@ -96,7 +150,11 @@
         box-shadow: 0 2px 8px rgba(37,99,235,0.08);
         letter-spacing: 0.5px;
         font-family: 'Inter', sans-serif;
-        display: inline-block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1 1 0;
+        min-width: 260px;
         transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s cubic-bezier(0.4,0,0.2,1);
     }
     .role-badge:hover {
@@ -563,6 +621,82 @@
         height: 38px;
         padding: 2px 4px;
     }
+    
+    .awards-certifications-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .award-card, .certification-card {
+        background: var(--surface);
+        border-radius: 1rem;
+        padding: 2rem;
+        border: 1px solid rgba(59, 130, 246, 0.1);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .award-card::before, .certification-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(to right, var(--primary), var(--accent));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+    }
+    
+    .award-card:hover, .certification-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary);
+        box-shadow: 0 10px 30px rgba(37, 99, 235, 0.1);
+    }
+    
+    .award-card:hover::before, .certification-card:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .award-icon, .certification-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        color: white;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+        box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+    }
+    
+    .award-content, .certification-content {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .award-title, .certification-title {
+        color: var(--text);
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+    }
+    
+    .award-organization, .certification-organization {
+        color: var(--accent);
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
     .hero-role {
         display: flex;
         flex-direction: row;
@@ -1002,13 +1136,17 @@
 </style>
 </head>
 <body>
-<!-- Header/Nav Bar -->
+    <!-- Custom Cursor Elements -->
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-trail"></div>
+    
+    <!-- Header/Nav Bar -->
 <nav class="nav-bar">
     <a href="#" class="nav-title">Danush SV</a>
     <div class="nav-center">
         <a href="#" class="nav-button">Home</a>
         <a href="contact.html" class="nav-button">Contact</a>
-        <a href="Danush_SV_Resume.pdf" target="_blank" class="nav-button">Resume</a>
+        <a href="DanushSV_Resume.pdf" target="_blank" class="nav-button">Resume</a>
     </div>
     <div class="nav-socials">
         <a href="https://github.com/danush2705" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
@@ -1022,8 +1160,8 @@
     <div class="hero-content">
         <div class="hero-greeting">Hey, I'm Danush SV</div>
         <div class="hero-roles">
+            <span class="role-badge">Software Engineer</span>
             <span class="role-badge">Data Scientist</span>
-            <span class="role-badge">AI & ML Engineer</span>
         </div>
         <div class="hero-description">
             Passionate about tech with a strong foundation in development, data analytics, and machine learning. Open to learning and taking on diverse roles to build impactful, secure, and scalable solutions.
@@ -1042,7 +1180,7 @@
     <a href="#experience" class="subnav-link">Experience</a>
     <a href="#projects" class="subnav-link">Projects</a>
     <a href="#skills" class="subnav-link">Skills</a>
-    <a href="#certifications" class="subnav-link">Certifications</a>
+                            <a href="#awards-certifications" class="subnav-link">Awards & Certifications</a>
     <a href="#positions" class="subnav-link">Positions of Responsibility</a>
 </div>
 
@@ -1060,6 +1198,7 @@
                 <div class="coursework-list">
                     <span class="coursework-item">Data Structures and Algorithms</span>
                     <span class="coursework-item">ML</span>
+                    <span class="coursework-item">DL</span>
                     <span class="coursework-item">AI</span>
                     <span class="coursework-item">Software Development</span>
                     <span class="coursework-item">DBMS</span>
@@ -1079,29 +1218,60 @@
                     <!-- Centered experience card -->
                     <div class="experience-card modern-center">
                         <div class="experience-header-main">
-                            <div class="experience-title">ML Engineer Intern</div>
+                            <div class="experience-title">Data Science Intern</div>
                             <div class="experience-period">June 2025 – July 2025</div>
                         </div>
                         <div class="experience-company-standalone"><a href="https://promantusinc.com/" target="_blank">Promantus India Private Limited</a></div>
                         <ul class="experience-details">
-                            <li>Developed and integrated backend scripts for preprocessing and cleaning large unstructured datasets, reducing model training time by 35% and significantly improving pipeline throughput.</li>
-                            <li>Designed and tested RESTful API endpoints for GenAI services using Postman, streamlining model deployment workflows, and improving integration testing coverage by 40%.</li>
-                            <li>Fine-tuned a transformer-based language model for enterprise documentation summarization, achieving a 26% improvement in content condensation accuracy and enhancing downstream NLP task performance.</li>
+                            <li>Contributed to an AI-powered Voice of Customers (VoC) platform that analyzed feedback from surveys, call logs, and open-text to extract insights and drive service improvements using LLMs.</li>
+                            <li>Developed feedback pipelines to ingest and clean structured and unstructured data, and engineered prompt-based modules to extract sentiment, emotion, and customer personas dynamically.</li>
+                            <li>Built classifiers for feedback categorization and redundancy detection, automated Excel-based reporting, and supported UI integration via FastAPI with structured JSON outputs, reducing manual analysis time by 40%.</li>
                         </ul>
                         <div class="experience-tools">
                             <span class="tool-tag"><i class="fab fa-python"></i> Python</span>
                             <span class="tool-tag"><i class="fas fa-table"></i> Pandas</span>
-                            <span class="tool-tag"><i class="fas fa-calculator"></i> NumPy</span>
-                            <span class="tool-tag"><i class="fas fa-chart-line"></i> Scikit-learn</span>
-                            <span class="tool-tag"><i class="fas fa-robot"></i> Hugging Face Transformers</span>
+                            <span class="tool-tag"><i class="fas fa-link"></i> LangChain</span>
                             <span class="tool-tag"><i class="fas fa-server"></i> FastAPI</span>
-                            <span class="tool-tag"><i class="fas fa-envelope-open-text"></i> Postman</span>
-                            <span class="tool-tag"><i class="fas fa-code-branch"></i> Git</span>
+                            <span class="tool-tag"><i class="fas fa-cloud"></i> Azure Blob Storage</span>
+                            <span class="tool-tag"><i class="fas fa-robot"></i> Transformers</span>
+                            <span class="tool-tag"><i class="fas fa-brain"></i> spaCy</span>
+                            <span class="tool-tag"><i class="fas fa-bolt"></i> Prompt Engineering</span>
+                            <span class="tool-tag"><i class="fas fa-file-excel"></i> Excel Automation</span>
                         </div>
                     </div>
                     <!-- Timeline line (card to bottom) -->
                     <div class="timeline-path-modern timeline-path-bottom"></div>
                     <!-- Bottom pulse node -->
+                    <div class="timeline-node pulse-node pulse-node-bottom"></div>
+                    <!-- Timeline line (bottom node to next card top) -->
+                    <div class="timeline-path-modern timeline-path-top"></div>
+                    
+                    <!-- Second experience card -->
+                    <div class="experience-card modern-center">
+                        <div class="experience-header-main">
+                            <div class="experience-title">Software Engineer Intern</div>
+                            <div class="experience-period">July 2025 – September 2025</div>
+                        </div>
+                        <div class="experience-company-standalone"><a href="https://iqbas.org/" target="_blank">InsightQuest Business Advisory Solutions</a></div>
+                        <ul class="experience-details">
+                            <li>Collaborated with the product team to build scalable modules, creating reusable React components that improved dashboard responsiveness and UI consistency.</li>
+                            <li>Supported backend API development with FastAPI by implementing secure, modular endpoints and integrating PostgreSQL for data-driven features.</li>
+                            <li>Assisted CI/CD setup using GitHub Actions and Docker to automate tests and streamline deployments to staging environments, reducing release time by 25%.</li>
+                        </ul>
+                        <div class="experience-tools">
+                            <span class="tool-tag"><i class="fab fa-react"></i> React</span>
+                            <span class="tool-tag"><i class="fab fa-js"></i> JavaScript</span>
+                            <span class="tool-tag"><i class="fab fa-python"></i> Python</span>
+                            <span class="tool-tag"><i class="fas fa-server"></i> FastAPI</span>
+                            <span class="tool-tag"><i class="fas fa-database"></i> PostgreSQL</span>
+                            <span class="tool-tag"><i class="fab fa-docker"></i> Docker</span>
+                            <span class="tool-tag"><i class="fas fa-code-branch"></i> Git</span>
+                            <span class="tool-tag"><i class="fab fa-github"></i> GitHub Actions</span>
+                            <span class="tool-tag"><i class="fas fa-envelope-open-text"></i> Postman</span>
+                        </div>
+                    </div>
+                    <!-- Connector to future section -->
+                    <div class="timeline-path-modern timeline-path-bottom"></div>
                     <div class="timeline-node pulse-node pulse-node-bottom"></div>
                     <!-- Loading animation and text -->
                     <div class="loading-modern">
@@ -1202,111 +1372,121 @@
             <div class="skills-grid">
                 <div class="skill-card">
                     <div class="skill-title">
-                        <i class="fas fa-code"></i>
-                        Programming Languages
+                        <i class="fas fa-globe"></i>
+                        Web & Software Development
                     </div>
                     <div class="skill-list">
-                        <span class="skill-item">Python</span>
-                        <span class="skill-item">SQL</span>
-                        <span class="skill-item">R</span>
-                        <span class="skill-item">Java</span>
+                        <span class="skill-item">JavaScript</span>
+                        <span class="skill-item">React</span>
+                        <span class="skill-item">FastAPI</span>
+                        <span class="skill-item">Docker</span>
+                        <span class="skill-item">Git</span>
+                        <span class="skill-item">GitHub Actions</span>
+                        <span class="skill-item">Postman</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-title">
+                        <i class="fas fa-database"></i>
+                        Databases, Cloud & Analytics
+                    </div>
+                    <div class="skill-list">
+                        <span class="skill-item">Azure (API & Blob)</span>
+                        <span class="skill-item">MongoDB</span>
+                        <span class="skill-item">MySQL</span>
+                        <span class="skill-item">PostgreSQL</span>
+                        <span class="skill-item">PowerBI</span>
+                        <span class="skill-item">Tableau</span>
                     </div>
                 </div>
 
                 <div class="skill-card">
                     <div class="skill-title">
                         <i class="fas fa-brain"></i>
-                        AI & Machine Learning
+                        Machine Learning & AI
                     </div>
                     <div class="skill-list">
-                        <span class="skill-item">Classification & Regression Models</span>
-                        <span class="skill-item">Exploratory Data Analysis</span>
                         <span class="skill-item">Deep Learning</span>
-                        <span class="skill-item">Gen-AI</span>
+                        <span class="skill-item">NLP</span>
                         <span class="skill-item">Computer Vision</span>
-                        <span class="skill-item">Natural Language Processing</span>
                         <span class="skill-item">MLOps</span>
+                        <span class="skill-item">Prompt Engineering</span>
                     </div>
                 </div>
 
                 <div class="skill-card">
                     <div class="skill-title">
                         <i class="fas fa-layer-group"></i>
-                        Frameworks / Libraries
+                        Frameworks & Libraries
                     </div>
                     <div class="skill-list">
                         <span class="skill-item">PyTorch</span>
-                        <span class="skill-item">Streamlit</span>
-                        <span class="skill-item">CUDA</span>
-                        <span class="skill-item">LangChain</span>
-                        <span class="skill-item">ChatGroq</span>
-                        <span class="skill-item">Scikit-learn</span>
                         <span class="skill-item">Transformers</span>
-                        <span class="skill-item">NumPy</span>
-                        <span class="skill-item">Pandas</span>
-                        <span class="skill-item">Matplotlib</span>
-                        <span class="skill-item">OpenCV</span>
-                        <span class="skill-item">SQLAlchemy</span>
-                        <span class="skill-item">Hugging Face Transformers</span>
-                        <span class="skill-item">FastAPI</span>
+                        <span class="skill-item">Hugging Face</span>
+                        <span class="skill-item">LangChain</span>
+                        <span class="skill-item">Scikit-learn</span>
+                        <span class="skill-item">Streamlit</span>
                     </div>
                 </div>
 
                 <div class="skill-card">
                     <div class="skill-title">
-                        <i class="fas fa-tools"></i>
-                        Tools & Technologies
+                        <i class="fas fa-code"></i>
+                        Programming Languages
                     </div>
                     <div class="skill-list">
-                        <span class="skill-item">MongoDB</span>
-                        <span class="skill-item">MySQL</span>
-                        <span class="skill-item">Azure API</span>
-                        <span class="skill-item">Clever Cloud</span>
-                        <span class="skill-item">PowerBI</span>
-                        <span class="skill-item">Unix/Linux Environments</span>
-                        <span class="skill-item">Tableau</span>
-                        <span class="skill-item">Git</span>
-                        <span class="skill-item">Postman</span>
-                        <span class="skill-item">Pickle</span>
-                    </div>
-                </div>
-
-                <div class="skill-card">
-                    <div class="skill-title">
-                        <i class="fas fa-users"></i>
-                        Soft Skills
-                    </div>
-                    <div class="skill-list">
-                        <span class="skill-item">Leadership</span>
-                        <span class="skill-item">Communication</span>
-                        <span class="skill-item">Team Player</span>
-                        <span class="skill-item">Adaptability</span>
-                        <span class="skill-item">Time Management</span>
-                        <span class="skill-item">Problem Solving</span>
+                        <span class="skill-item">Python</span>
+                        <span class="skill-item">SQL</span>
+                        <span class="skill-item">Java</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="certifications">
-            <h2>Certifications</h2>
-            <div class="certifications-grid">
+        <section id="awards-certifications">
+            <h2>Awards and Certifications</h2>
+            <div class="awards-certifications-grid">
+                <div class="award-card">
+                    <div class="award-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="award-content">
+                        <div class="award-title">TOP 15: HackSky – Pan India Hackathon'25</div>
+                        <div class="award-organization">Kaspersky & MIT Bengaluru</div>
+                    </div>
+                </div>
+                
+                <div class="award-card">
+                    <div class="award-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div class="award-content">
+                        <div class="award-title">TOP 10: BOLT 2.0 Hackathon'24</div>
+                        <div class="award-organization">Cisco, Intel and the IEEE Society</div>
+                    </div>
+                </div>
+
                 <div class="certification-card">
                     <img class="certification-logo" src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Udemy_logo.svg" alt="Udemy Logo">
                     The Complete Python Pro Bootcamp Professional Certification
                 </div>
+
                 <div class="certification-card">
                     <img class="certification-logo" src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Udemy_logo.svg" alt="Udemy Logo">
                     Machine Learning Professional Certification
                 </div>
+
                 <div class="certification-card">
                     <img class="certification-logo" src="postman-icon.png" alt="Postman Logo">
                     Postman: API Fundamentals Student Expert Certification
                 </div>
+
                 <div class="certification-card">
                     <img class="certification-logo nptel" src="nptel-logo.png" alt="NPTEL Logo">
                     Responsible & Safe AI Systems Professional Certification
                 </div>
+
                 <div class="certification-card">
                     <img class="certification-logo nptel" src="nptel-logo.png" alt="NPTEL Logo">
                     Edge Computing Professional Certification
@@ -1336,6 +1516,73 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Custom Cursor Animation
+        const cursor = document.querySelector('.custom-cursor');
+        const cursorTrail = document.querySelector('.custom-cursor-trail');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let trailX = 0, trailY = 0;
+        
+        // Mouse move event
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        // Cursor animation loop
+        function animateCursor() {
+            // Smooth cursor movement
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            
+            // Smooth trail movement
+            trailX += (mouseX - trailX) * 0.08;
+            trailY += (mouseY - trailY) * 0.08;
+            
+            // Apply transforms
+            cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+            cursorTrail.style.transform = `translate(${trailX}px, ${trailY}px)`;
+            
+            requestAnimationFrame(animateCursor);
+        }
+        
+        // Start animation
+        animateCursor();
+        
+        // Hover effects for interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, .role-badge, .project-card, .skill-card, .certification-card, .award-card, .hero-btn');
+        
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover');
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover');
+            });
+        });
+        
+        // Click effect
+        document.addEventListener('mousedown', () => {
+            cursor.classList.add('click');
+        });
+        
+        document.addEventListener('mouseup', () => {
+            cursor.classList.remove('click');
+        });
+        
+        // Hide cursor when leaving window
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+            cursorTrail.style.opacity = '0';
+        });
+        
+        document.addEventListener('mouseenter', () => {
+            cursor.style.opacity = '1';
+            cursorTrail.style.opacity = '1';
+        });
+        
+        // Existing section observer code
         const sections = document.querySelectorAll('section');
         
         const observer = new IntersectionObserver((entries) => {
@@ -1351,6 +1598,7 @@
         sections.forEach(section => {
             observer.observe(section);
         });
+        
         // Subnav active link
         const subnavLinks = document.querySelectorAll('.subnav-link');
         window.addEventListener('scroll', () => {
