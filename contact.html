@@ -45,6 +45,8 @@
         mix-blend-mode: difference;
         transition: transform 0.1s ease;
         transform: translate(-50%, -50%);
+        will-change: left, top, transform;
+        /* keep centering via translate(-50%,-50%) and move by left/top in JS */
     }
 
     .custom-cursor-trail {
@@ -55,8 +57,9 @@
         border-radius: 50%;
         pointer-events: none;
         z-index: 9998;
-        transition: all 0.15s ease;
+        transition: opacity 0.12s linear;
         transform: translate(-50%, -50%);
+        will-change: left, top, opacity;
     }
 
     .custom-cursor.hover {
@@ -342,6 +345,17 @@
             padding: 1rem;
         }
     }
+
+    /* Hide native cursor everywhere EXCEPT actual form controls (inputs/textareas/selects)
+       This prevents the native white hand from appearing while keeping text caret functional. */
+    *:not(input):not(textarea):not(select) {
+        cursor: none !important;
+    }
+
+    /* Keep inputs/textareas using default cursor for accessibility */
+    input, textarea, select {
+        cursor: text;
+    }
 </style>
 </head>
 <body>
@@ -451,17 +465,30 @@
             });
 
             function animateCursor() {
-                cursorX += (mouseX - cursorX) * 0.15;
-                cursorY += (mouseY - cursorY) * 0.15;
-                trailX += (mouseX - trailX) * 0.08;
-                trailY += (mouseY - trailY) * 0.08;
-                cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-                cursorTrail.style.transform = `translate(${trailX}px, ${trailY}px)`;
+                cursorX += (mouseX - cursorX) * 0.18;
+                cursorY += (mouseY - cursorY) * 0.18;
+                trailX += (mouseX - trailX) * 0.09;
+                trailY += (mouseY - trailY) * 0.09;
+
+                // position via left/top (CSS keeps centering with translate(-50%,-50%))
+                cursor.style.left = `${cursorX}px`;
+                cursor.style.top = `${cursorY}px`;
+                cursorTrail.style.left = `${trailX}px`;
+                cursorTrail.style.top = `${trailY}px`;
+
                 requestAnimationFrame(animateCursor);
             }
+
+            // set initial positions to avoid jump
+            cursor.style.left = '0px';
+            cursor.style.top = '0px';
+            cursorTrail.style.left = '0px';
+            cursorTrail.style.top = '0px';
+
             animateCursor();
 
-            const interactive = document.querySelectorAll('a, button, .nav-button, .contact-link, .submit-button');
+            // broader interactive selector list so hover state matches where native pointer would appear
+            const interactive = document.querySelectorAll('a, button, .nav-button, .contact-link, .submit-button, .nav-socials a, .contact-links a, .nav-title');
             interactive.forEach(el => {
                 el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
                 el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
@@ -532,4 +559,4 @@
     });
     </script>
 </body>
-</html> 
+</html>
