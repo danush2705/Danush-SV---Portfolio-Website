@@ -1133,6 +1133,33 @@
         from { opacity: 0; transform: translateY(-40px); }
         to { opacity: 1; transform: translateY(0); }
     }
+
+    /* Force-hide native pointer on all common interactive elements to avoid the white hand/finger */
+    a, button, input, textarea, select, label,
+    .role-badge, .project-card, .skill-card, .certification-card, .award-card,
+    .nav-button, .subnav-link, .tool-tag {
+        cursor: none !important;
+    }
+
+    /* Target hero area and its children that were still showing the native cursor */
+    .hero-section, .hero-content, .hero-description, .hero-image-container,
+    .hero-image, .hero-image img, .hero-description * {
+        cursor: none !important;
+    }
+
+    /* Improve custom cursor rendering performance and smoothing */
+    .custom-cursor {
+        will-change: left, top, transform;
+        transition: left 0.09s linear, top 0.09s linear, transform 0.08s ease-out;
+        transform: translate(-50%, -50%); /* keep centering handled by CSS */
+        /* keep pointer-events: none so it never blocks clicks */
+    }
+
+    .custom-cursor-trail {
+        will-change: left, top;
+        transition: left 0.12s linear, top 0.12s linear, opacity 0.12s linear;
+        transform: translate(-50%, -50%);
+    }
 </style>
 </head>
 <body>
@@ -1542,6 +1569,31 @@
             // Apply transforms
             cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
             cursorTrail.style.transform = `translate(${trailX}px, ${trailY}px)`;
+            
+            requestAnimationFrame(animateCursor);
+        }
+        
+        // Set initial position to avoid a jump on load
+        cursor.style.left = '0px';
+        cursor.style.top = '0px';
+        cursorTrail.style.left = '0px';
+        cursorTrail.style.top = '0px';
+
+        // Use left/top (with CSS translate(-50%,-50%) centering) for smoother, less janky animation
+        function animateCursor() {
+            // Smooth cursor movement (interpolation)
+            cursorX += (mouseX - cursorX) * 0.18;
+            cursorY += (mouseY - cursorY) * 0.18;
+            
+            // Smooth trail movement (slower)
+            trailX += (mouseX - trailX) * 0.09;
+            trailY += (mouseY - trailY) * 0.09;
+            
+            // Apply positions (left/top) — CSS keeps center with translate(-50%,-50%)
+            cursor.style.left = `${cursorX}px`;
+            cursor.style.top = `${cursorY}px`;
+            cursorTrail.style.left = `${trailX}px`;
+            cursorTrail.style.top = `${trailY}px`;
             
             requestAnimationFrame(animateCursor);
         }
